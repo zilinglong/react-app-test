@@ -1,6 +1,6 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// import React from "react";
+// import logo from "./logo.svg";
+// import "./App.css";
 
 // function App() {
 //   return (
@@ -28,6 +28,8 @@ class App extends React.Component {
       <div>
         <h1>jjjj</h1>
         <h2>2222</h2>
+        <h2>这里是测试react应用的demo</h2>
+        <h4>{this.props.date.toLocaleString()}</h4>
       </div>
     );
   }
