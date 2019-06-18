@@ -160,6 +160,107 @@ class MyTitle extends React.Component {
 MyTitle.propTypes = {
   title: propTypes.string
 };
+class User extends React.Component {
+  render() {
+    return <h5>欢迎回来</h5>;
+  }
+}
+class Guest extends React.Component {
+  render() {
+    return <h5>请先注册</h5>;
+  }
+}
+class Greeting extends React.Component {
+  render() {
+    let isLogined = this.props.isLogined;
+    if (isLogined) {
+      return <User />;
+    } else {
+      return <Guest />;
+    }
+  }
+}
+class ControlLogin extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      isLogined: true
+    };
+    // this.handleLogin = this.handleLogin.bind(this);
+    // this.handleLogout = this.handleLogout.bind(this);
+  }
+  handleLogin() {
+    this.setState({
+      isLogined: true
+    });
+  }
+  handleLogout() {
+    this.setState({
+      isLogined: false
+    });
+  }
+  render() {
+    const isLogined = this.state.isLogined;
+    /*
+      if (isLogined) {
+      // return <button onClick={this.handleLogout.bind(this)}>退出</button>;
+      return <button onClick={() => this.handleLogout()}>退出</button>;
+    } else {
+      // return <button onClick={this.handleLogin.bind(this)}>登录</button>;
+      return <button onClick={() => this.handleLogin()}>登录</button>;
+    }
+      */
+    return (
+      <div>
+        {isLogined ? (
+          <button onClick={() => this.handleLogout()}>退出</button>
+        ) : (
+          <button onClick={() => this.handleLogin()}>登录</button>
+        )}
+      </div>
+    );
+  }
+}
+class MailBox extends React.Component {
+  render() {
+    return (
+      <div>
+        <p>hello!</p>
+        {this.props.mailList.length > 0 && (
+          <p>您有{this.props.mailList.length}条消息未读</p>
+        )}
+      </div>
+    );
+  }
+}
+class Warn extends React.Component {
+  render() {
+    return this.props.show ? "展示warn内容" : null;
+  }
+}
+class Page extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      showWarning: true
+    };
+    this.switchWarningState = this.switchWarningState.bind(this);
+  }
+  switchWarningState() {
+    this.setState(prevState => ({
+      showWarning: !prevState.showWarning
+    }));
+  }
+  render() {
+    return (
+      <div>
+        <Warn show={this.state.showWarning} />
+        <p>当前展示warning与否：{this.state.showWarning ? "展示" : "不展示"}</p>
+        <button onClick={this.switchWarningState}>改变warning的展示状态</button>
+      </div>
+    );
+  }
+}
 class App extends React.Component {
   render() {
     const i = 1;
@@ -231,6 +332,25 @@ class App extends React.Component {
           </li>
           <li>
             <Popper />
+          </li>
+        </ol>
+        <h1>条件渲染</h1>
+        <ol>
+          <li>
+            直接显示登录状态：
+            <Greeting isLogined={false} />
+          </li>
+          <li>
+            通过改变状态进行控制：
+            <ControlLogin />
+          </li>
+          <li>
+            与运算符
+            <MailBox mailList={[1, 2]} />
+          </li>
+          <li>
+            阻止组件渲染
+            <Page />
           </li>
         </ol>
       </div>
