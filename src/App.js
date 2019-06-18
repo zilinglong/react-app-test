@@ -261,6 +261,44 @@ class Page extends React.Component {
     );
   }
 }
+class List extends React.Component {
+  render() {
+    const list = [1, 2, 3, 4, 5, 6];
+    // const itemShow = list.map((item, idx) => <li key={idx}>{item}</li>);
+    // return (
+    //   <div>
+    //     <ul>{itemShow}</ul>
+    //   </div>
+    // );
+    return <ul>{list.map((item, idx) => <li key={idx}>{item}</li>)}</ul>;
+  }
+}
+class Blog extends React.Component {
+  render() {
+    const siderbar = (
+      <ol>
+        {this.props.posts.map((item, idx) => <li key={idx}>{item.title}</li>)}
+      </ol>
+    );
+    const content = (
+      <ul>
+        {this.props.posts.map((item, idx) => (
+          <li key={idx}>
+            <h5>{item.title}</h5>
+            <p>{item.content}</p>
+          </li>
+        ))}
+      </ul>
+    );
+    return (
+      <div>
+        {siderbar}
+        <br />
+        {content}
+      </div>
+    );
+  }
+}
 class App extends React.Component {
   render() {
     const i = 1;
@@ -269,6 +307,14 @@ class App extends React.Component {
       color: "#f00"
     };
     const arr = ["<h5>菜鸟教程<h5>", "<h5>学的不仅是技术，更是梦想！</h5>"];
+    const posts = [
+      { id: 1, title: "Hello World", content: "Welcome to learning React!" },
+      {
+        id: 2,
+        title: "Installation",
+        content: "You can install React from npm."
+      }
+    ];
     return (
       <div>
         <h1>react 元素渲染</h1>
@@ -351,6 +397,15 @@ class App extends React.Component {
           <li>
             阻止组件渲染
             <Page />
+          </li>
+        </ol>
+        <h1>React 列表与keys</h1>
+        <ol>
+          <li>
+            <List />
+          </li>
+          <li>
+            <Blog posts={posts} />
           </li>
         </ol>
       </div>
