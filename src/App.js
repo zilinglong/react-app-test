@@ -22,6 +22,7 @@
 //     </div>
 //   );  test
 import React from "react";
+import propTypes from "prop-types";
 class Name extends React.Component {
   render() {
     return <p>这里显示的是Name:{this.props.name}</p>;
@@ -37,6 +38,70 @@ class Url extends React.Component {
     return <p>这里显示的是URL：{this.props.url}</p>;
   }
 }
+class FormattedDate extends React.Component {
+  render() {
+    return <p>{this.props.date.toLocaleString()}</p>;
+  }
+}
+class Link extends React.Component {
+  render() {
+    return <a href={this.props.link}>{this.props.link}</a>;
+  }
+}
+class Website extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      name: "菜鸟教程",
+      link: "http://www.runoob.com"
+    };
+  }
+  render() {
+    return (
+      <div>
+        <Name name={this.state.name} />
+        <Link link={this.state.link} />
+      </div>
+    );
+  }
+}
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { date: new Date() };
+  }
+  componentDidMount() {
+    this.timerID = setInterval(() => {
+      this.tick();
+    }, 1000);
+  }
+  componentDidUnmount() {
+    clearInterval(this.timerID);
+  }
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+  }
+  render() {
+    return (
+      <div>
+        <p>现在时间是：{this.state.date.toLocaleString()}</p>
+        调用格式化组件：<FormattedDate date={this.state.date} />
+      </div>
+    );
+  }
+}
+const title = "菜鸟教程";
+// const title = 123;
+class MyTitle extends React.Component {
+  render() {
+    return <p>{this.props.title}</p>;
+  }
+}
+MyTitle.propTypes = {
+  title: propTypes.string
+};
 class App extends React.Component {
   render() {
     const i = 1;
@@ -76,9 +141,30 @@ class App extends React.Component {
         </ol>
         <h1>react 组件</h1>
         <ol>
-          <li><Name name={"菜鸟教程"}/></li>
-          <li><NickName nickname={"runoob"} /></li>
-          <li><Url url={"http://www.runoob.com"}/></li>
+          <li>
+            <Name name={"菜鸟教程"} />
+          </li>
+          <li>
+            <NickName nickname={"runoob"} />
+          </li>
+          <li>
+            <Url url={"http://www.runoob.com"} />
+          </li>
+        </ol>
+        <h1>react state</h1>
+        <ol>
+          <li>
+            <Clock />
+          </li>
+        </ol>
+        <h1>React props</h1>
+        <ol>
+          <li>
+            <Website />
+          </li>
+          <li>
+            <MyTitle title={title} />
+          </li>
         </ol>
       </div>
     );
