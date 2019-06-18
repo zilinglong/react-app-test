@@ -92,6 +92,64 @@ class Clock extends React.Component {
     );
   }
 }
+class Toggle extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      isToggleOn: true
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick() {
+    this.setState(prevState => ({
+      isToggleOn: !prevState.isToggleOn
+    }));
+  }
+  render() {
+    return (
+      <div>
+        <button onClick={this.handleClick}>
+          点击改变按钮的状态:{this.state.isToggleOn ? "ON" : "OFF"}
+        </button>
+      </div>
+    );
+  }
+}
+class Popper extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      name: "hello world"
+    };
+  }
+  preventPop(name, e) {
+    e.preventDefault();
+    console.log("name:", name);
+  }
+  render() {
+    return (
+      <div>
+        <p>hello</p>
+        <div>
+          <a
+            href="http://www.baidu.com"
+            onClick={this.preventPop.bind(this, this.state.name)}
+          >
+            点击链接1：一种使用方式(this.preventPop.bind(this, this.state.name))
+          </a>
+        </div>
+        <div>
+          <a
+            href="http://www.baidu.com"
+            onClick={e => this.preventPop(this.state.name, e)}
+          >
+            点击链接2：另一种使用方式(e =>this.preventPop(this.state.name, e))
+          </a>
+        </div>
+      </div>
+    );
+  }
+}
 const title = "菜鸟教程";
 // const title = 123;
 class MyTitle extends React.Component {
@@ -164,6 +222,15 @@ class App extends React.Component {
           </li>
           <li>
             <MyTitle title={title} />
+          </li>
+        </ol>
+        <h1>React 事件处理</h1>
+        <ol>
+          <li>
+            <Toggle />
+          </li>
+          <li>
+            <Popper />
           </li>
         </ol>
       </div>
