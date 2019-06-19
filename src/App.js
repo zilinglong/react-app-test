@@ -75,7 +75,7 @@ class Clock extends React.Component {
       this.tick();
     }, 1000);
   }
-  componentDidUnmount() {
+  componentWillUnmount() {
     clearInterval(this.timerID);
   }
   tick() {
@@ -327,6 +327,95 @@ class Counter extends React.Component {
     );
   }
 }
+class Hello extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      opacity: 1
+    };
+  }
+  componentDidMount() {
+    this.timerID = setInterval(
+      function() {
+        let opacity = this.state.opacity;
+        opacity -= 0.05;
+        if (opacity < 0.1) {
+          opacity = 1;
+        }
+        this.setState({
+          opacity: opacity
+        });
+      }.bind(this),
+      1000
+    );
+  }
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+  render() {
+    return (
+      <div>
+        当前透明度为:{this.state.opacity}
+        <span style={{ opacity: this.state.opacity }}>
+          hello {this.props.name}
+        </span>
+      </div>
+    );
+  }
+}
+class Button extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      data: 0
+    };
+    this.increase = this.increase.bind(this);
+  }
+  increase() {
+    this.setState({
+      data: this.state.data + 1
+    });
+  }
+  render() {
+    return (
+      <div>
+        当前值是：{this.state.data}
+        <button onClick={this.increase}>点击+1</button>
+        <Content myNumber={this.state.data} />
+      </div>
+    );
+  }
+}
+class Content extends React.Component {
+  componentWillMount() {
+    console.log("Component will mount");
+  }
+  componentDidMount() {
+    console.log("component did mount");
+  }
+  componentWillReceiveProps(newProps) {
+    console.log("comp will receive props");
+  }
+  shouldComponentUpdate(newProps, newState) {
+    return true;
+  }
+  componentWillUpdate(nextProps, nextState) {
+    console.log("com will update");
+  }
+  componentDidUpdate(prevProps, prevState) {
+    console.log("com did update");
+  }
+  componentWillUnmount() {
+    console.log("com will unmount");
+  }
+  render() {
+    return (
+      <div>
+        <h5>{this.props.myNumber}</h5>
+      </div>
+    );
+  }
+}
 class App extends React.Component {
   render() {
     const i = 1;
@@ -440,6 +529,15 @@ class App extends React.Component {
         <ol>
           <li>
             <Counter />
+          </li>
+        </ol>
+        <h1>React 组件生命周期</h1>
+        <ol>
+          <li>
+            <Hello name={"world"} />
+          </li>
+          <li>
+            <Button />
           </li>
         </ol>
       </div>
