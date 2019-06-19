@@ -463,7 +463,11 @@ class ContentChild extends React.Component {
   render() {
     return (
       <div>
-        <input type="text" value={this.props.childData} onChange={this.props.updateStateProp} />
+        <input
+          type="text"
+          value={this.props.childData}
+          onChange={this.props.updateStateProp}
+        />
         子组件中的值为：{this.props.childData}
       </div>
     );
@@ -491,7 +495,108 @@ class HelloMessage extends React.Component {
           onChange={this.handleChange.bind(this)}
         />
         <p>当前input中的值是：{value}</p>
-        <ContentChild childData={value} updateStateProp={this.handleChange.bind(this)}></ContentChild>
+        <ContentChild
+          childData={value}
+          updateStateProp={this.handleChange.bind(this)}
+        />
+      </div>
+    );
+  }
+}
+class FlavorFormSelect extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      value: "hhh"
+    };
+  }
+  handleChange(e) {
+    this.setState({
+      value: e.target.value
+    });
+  }
+  handleSumbmit(e) {
+    e.preventDefault();
+    console.log("提交的内容是：", this.state.value);
+  }
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.handleSumbmit.bind(this)}>
+          您喜欢的内容是：{this.state.value}
+          <select
+            value={this.state.value}
+            onChange={this.handleChange.bind(this)}
+          >
+            <option value="aa">aa</option>
+            <option value="bb">bb</option>
+            <option value="cc">cc</option>
+            <option value="dd">dd</option>
+          </select>
+          <button onClick={this.handleSumbmit.bind(this)}>提交</button>
+        </form>
+      </div>
+    );
+  }
+}
+class Reservation extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      isGoing: true,
+      numberOfGuest: 2
+    };
+  }
+  handleChange(e) {
+    const target = e.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value
+    });
+  }
+  render() {
+    return (
+      <div>
+        <div>
+          是否选中：{this.state.isGoing}
+          <input
+            name="isGoing"
+            type="checkbox"
+            value={this.state.isGoing}
+            onChange={this.handleChange.bind(this)}
+          />
+        </div>
+        <div>
+          游客数量为：
+          <input
+            name="numberOfGuest"
+            type="number"
+            value={this.state.numberOfGuest}
+            onChange={this.handleChange.bind(this)}
+          />
+        </div>
+      </div>
+    );
+  }
+}
+class EventChangeData extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      value: "hello 菜鸟教程"
+    };
+  }
+  handleChange() {
+    this.setState({
+      value: "通过事件被修改后的值"
+    });
+  }
+  render() {
+    return (
+      <div>
+        value的值是：{this.state.value}
+        <button onClick={this.handleChange.bind(this)}>修改value值</button>
       </div>
     );
   }
@@ -636,6 +741,18 @@ class App extends React.Component {
         <ol>
           <li>
             <HelloMessage />
+          </li>
+          <li>
+            下拉框
+            <FlavorFormSelect />
+          </li>
+          <li>
+            多个表单：
+            <Reservation />
+          </li>
+          <li>
+            通过onClick事件修改数据：
+            <EventChangeData />
           </li>
         </ol>
       </div>
