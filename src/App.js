@@ -459,6 +459,43 @@ class Ref extends React.Component {
     );
   }
 }
+class ContentChild extends React.Component {
+  render() {
+    return (
+      <div>
+        <input type="text" value={this.props.childData} onChange={this.props.updateStateProp} />
+        子组件中的值为：{this.props.childData}
+      </div>
+    );
+  }
+}
+class HelloMessage extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      value: "hello,菜鸟教程"
+    };
+  }
+  handleChange(e) {
+    this.setState({
+      value: e.target.value
+    });
+  }
+  render() {
+    let value = this.state.value;
+    return (
+      <div>
+        <input
+          type="text"
+          value={value}
+          onChange={this.handleChange.bind(this)}
+        />
+        <p>当前input中的值是：{value}</p>
+        <ContentChild childData={value} updateStateProp={this.handleChange.bind(this)}></ContentChild>
+      </div>
+    );
+  }
+}
 class App extends React.Component {
   render() {
     const i = 1;
@@ -593,6 +630,12 @@ class App extends React.Component {
         <ol>
           <li>
             <Ref />
+          </li>
+        </ol>
+        <h1>React 表单与事件</h1>
+        <ol>
+          <li>
+            <HelloMessage />
           </li>
         </ol>
       </div>
