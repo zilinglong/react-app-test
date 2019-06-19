@@ -446,6 +446,19 @@ class UserGist extends React.Component {
     );
   }
 }
+class Ref extends React.Component {
+  handleClick() {
+    this.refs.myInput.focus();
+  }
+  render() {
+    return (
+      <div>
+        <input type="text" ref="myInput" />
+        <button onClick={this.handleClick.bind(this)}>点我input框获取焦点</button>
+      </div>
+    );
+  }
+}
 class App extends React.Component {
   render() {
     const i = 1;
@@ -574,6 +587,12 @@ class App extends React.Component {
         <ol>
           <li>
             <UserGist url="https://api.github.com/users/octocat/gists" />
+          </li>
+        </ol>
+        <h1>React Ref</h1>
+        <ol>
+          <li>
+            <Ref />
           </li>
         </ol>
       </div>
