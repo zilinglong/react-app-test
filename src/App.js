@@ -299,6 +299,34 @@ class Blog extends React.Component {
     );
   }
 }
+class Counter extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      clickCount: 0
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick() {
+    // this.setState(function(state) {
+    //   return {
+    //     clickCount: state.clickCount + 1
+    //   }
+    // });
+    // 上下两种使用方式均可
+    this.setState(prevState => ({
+      clickCount: prevState.clickCount + 1
+    }));
+  }
+  render() {
+    return (
+      <div>
+        <p>当期clickCount的值是：{this.state.clickCount}</p>
+        <button onClick={this.handleClick}>点击，clickCount的值+1</button>
+      </div>
+    );
+  }
+}
 class App extends React.Component {
   render() {
     const i = 1;
@@ -406,6 +434,12 @@ class App extends React.Component {
           </li>
           <li>
             <Blog posts={posts} />
+          </li>
+        </ol>
+        <h1>React 组件API</h1>
+        <ol>
+          <li>
+            <Counter />
           </li>
         </ol>
       </div>
