@@ -23,6 +23,7 @@
 //   );  test
 import React from "react";
 import propTypes from "prop-types";
+import axios from "axios";
 class Name extends React.Component {
   render() {
     return <p>这里显示的是Name:{this.props.name}</p>;
@@ -387,31 +388,60 @@ class Button extends React.Component {
   }
 }
 class Content extends React.Component {
-  componentWillMount() {
-    console.log("Component will mount");
-  }
-  componentDidMount() {
-    console.log("component did mount");
-  }
-  componentWillReceiveProps(newProps) {
-    console.log("comp will receive props");
-  }
-  shouldComponentUpdate(newProps, newState) {
-    return true;
-  }
-  componentWillUpdate(nextProps, nextState) {
-    console.log("com will update");
-  }
-  componentDidUpdate(prevProps, prevState) {
-    console.log("com did update");
-  }
-  componentWillUnmount() {
-    console.log("com will unmount");
-  }
+  // componentWillMount() {
+  //   console.log("Component will mount");
+  // }
+  // componentDidMount() {
+  //   console.log("component did mount");
+  // }
+  // componentWillReceiveProps(newProps) {
+  //   console.log("comp will receive props");
+  // }
+  // shouldComponentUpdate(newProps, newState) {
+  //   return true;
+  // }
+  // componentWillUpdate(nextProps, nextState) {
+  //   console.log("com will update");
+  // }
+  // componentDidUpdate(prevProps, prevState) {
+  //   console.log("com did update");
+  // }
+  // componentWillUnmount() {
+  //   console.log("com will unmount");
+  // }
   render() {
     return (
       <div>
         <h5>{this.props.myNumber}</h5>
+      </div>
+    );
+  }
+}
+class UserGist extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      userName: "",
+      lastGistUrl: ""
+    };
+  }
+  componentDidMount() {
+    this.serverRequest = axios.get(this.props.url).then(res => {
+      let result = res.data[0];
+      this.setState({
+        userName: result.owner.login,
+        lastGistUrl: result.url
+      });
+    });
+  }
+  componentWillUnmount() {
+    this.serverRequest.abort();
+  }
+  render() {
+    return (
+      <div>
+        {this.state.userName}的地址是:
+        <a href={this.state.lastGistUrl}>{this.state.lastGistUrl}</a>
       </div>
     );
   }
@@ -538,6 +568,12 @@ class App extends React.Component {
           </li>
           <li>
             <Button />
+          </li>
+        </ol>
+        <h1>React AJAX</h1>
+        <ol>
+          <li>
+            <UserGist url="https://api.github.com/users/octocat/gists" />
           </li>
         </ol>
       </div>
